@@ -1,0 +1,10 @@
+Analysis
+    Type         bilayer
+    Times        0  200
+    Polymer      Lipid
+    Normal       0  0  1
+    Slice        256
+    Grid         16  16
+    Solvent      Water
+100          2.57923      5.6005       5.71197      
+200          2.6098       9.08471      9.04599      

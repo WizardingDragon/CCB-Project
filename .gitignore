@@ -1,0 +1,15 @@
+# Folders:
+.ipynb_checkpoints/*
+
+# File Types:
+*.vtk
+*.dat
+*.zip
+
+# Files:
+dmpcls.*
+dmpcrs.*
+.directory
+.dmpci.*
+Notes
+results_parse.py
