@@ -9,7 +9,7 @@ State   compositelamella
         Normal      0 0 1
         Centre      0.5
         Thickness   5.0
-        Linearise   1
+        Linearise   0
         UpperFraction   0.5 0.5
         Patches     1   1
         Polymerise  0
@@ -39,23 +39,23 @@ BondPair	T T T	20.0	0.0
 Polymer Water 0.9801083 "  (W)  "
 Polymer Lipid 0.00994585 "  (H H (* (T T T T)) H T T T T)  "
 Polymer OctoLipid 0.00994585    "  (H H (* (T T T T T T T T T T T T T )) H T T T T T T T T T T T T T )  "
-Box			32 32 32			1 1 1
+Box			20 20 20			1 1 1
 Density		3
 Temp		1
 RNGSeed		-60112
 Lambda		0.5
 Step		0.02
-Time		60000
+Time		1000
 SamplePeriod		100
-AnalysisPeriod		1000
-DensityPeriod		60000
-DisplayPeriod		1000
-RestartPeriod		60000
+AnalysisPeriod		100
+DensityPeriod		1000
+DisplayPeriod		100
+RestartPeriod		1000
 Grid		10 10 256
 
 Analysis
 	Type	bilayer
-	Times	0 200
+	Times	0 1000
 	Polymer Lipid
 	Normal	0 0 1
 	Slice	256

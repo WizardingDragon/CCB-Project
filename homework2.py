@@ -126,7 +126,7 @@ def main():
 
     for seed in seeds:
         # Starts simulation
-        os.system('dpd-w10.exe pcs') if platform.system().lower() == 'windows' else os.system('./dpd-linux pcs')
+        os.system('dpd-w10.exe pcs') if platform.system().lower() == 'windows' else os.system('./dpd-linux ms')
 
         # Archive simulation files
         clean_cwd('membraneTestInit', seed)
