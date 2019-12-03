@@ -64,7 +64,7 @@ def archive_results(seeds):
                 raise
 
 
-def change_input(filename, frac, seed=None, time=30000):
+def change_input(filename, frac_Lp, seed=None, time=30000):
     """Creates a new dmpci.ms_sim with updated number fraction values (cf dpd doc)"""
 
     # Fraction of all lipids in the simulation volume
@@ -111,6 +111,15 @@ def change_input(filename, frac, seed=None, time=30000):
                     line = list(map(str, line))
                     wf.write('\t'.join(line) + '\n')
                     line = next(rf)
+                    
+                if line.startswith('	Times	0 1000'):
+                    line = line.strip().split()
+                    line[2] = f"{time}"
+                    
+                    # Converts list to list[str]
+                    line = list(map(str, line))
+                    wf.write('\t'.join(line) + '\n')  
+                    line = next(rf) 
                     
                 if line.strip().split() and line.strip().split()[0] in params.keys():
                     key = line.strip().split()[0]
@@ -221,7 +230,7 @@ def main():
     np.random.seed(279)
     seeds = np.random.randint(-9999, -1000, size=5)
 
-    sims = [{'folder': f'{frac_Lp[i]:.0f}_{seeds[j]}/', 'frac_p': frac_Lp[i] /(density * V_sim), 'seed': seeds[j]} 
+    sims = [{'folder': f'{frac_Lp[i]:.5f}_{seeds[j]}/', 'frac_p': frac_Lp[i] /(density * V_sim), 'seed': seeds[j]} 
             for i in range(frac_Lp.shape[0]) for j in range(seeds.shape[0])]
 
     print(sims)
