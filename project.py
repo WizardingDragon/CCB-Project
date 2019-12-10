@@ -11,66 +11,58 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def change_input(filename, frac_Lp, seed=None, time=30000):
+def change_input(filename, frac_l=0.019994, seed=None, time=200_000):
     """Creates a new dmpci.ms_sim with updated number fraction values (cf dpd doc)"""
 
-    # Fraction of all lipids in the simulation volume
-    frac_LT = 0.02
-
-    # Fraction of octolipids in the simulation
-    frac_Lp = round(frac * frac_LT, 5) if frac_Lp > 8e-5 else 0.0
-    # Fraction of regular lipids in the simulation volume
-    frac_L = frac_LT - frac_Lp
-    frac_w = 1 -frac_L -frac_Lp 
-
-    params = {'Box': "64 32 32\t1 1 1", 'RNGSeed': seed if seed is not None else -4073, 'Step': 0.02, 'Time': time, 
-              'SamplePeriod': time //1000, 'AnalysisPeriod': time //200, 'DensityPeriod': time, 'DisplayPeriod': time //10, 'RestartPeriod': time,
+    frac_sl = round(1.5 /(32**3 *3), 6)
+    frac_l = round(frac_l -frac_sl, 6)
+    frac_w = round(1 -frac_l -frac_sl, 6)
+    
+    params = {'Box': "32 32 32\t1 1 1", 'RNGSeed': seed if seed is not None else -4073, 'Step': 0.02, 'Time': time, 
+              'SamplePeriod': 100, 'AnalysisPeriod': 1000, 'DensityPeriod': time, 'DisplayPeriod': time //10, 'RestartPeriod': time,
               }
 
     with open(filename, 'rt') as rf:
         with open(filename+'_sim', 'wt') as wf:
 
             for line in rf:
-
-                if line.startswith('Polymer Water'):
-                    line = line.strip().split()
-                    line[2] = f"{frac_w:.5f}"
-                    
-                    # Converts list to list[str]
-                    line = list(map(str, line))
-                    wf.write('\t'.join(line) + '\n')  
-                    line = next(rf) 
-
-                if line.startswith('Polymer Lipid'):
-                    line = line.strip().split()
-                    line[2] = f"{frac_L:.5f}"
-
-                    # Converts list to list[str]
-                    line = list(map(str, line))
-                    wf.write('\t'.join(line) + '\n')
-                    line = next(rf)
                 
-                if line.startswith('Polymer OctoLipid'):
+                if line.startswith('Polymer\tWater') or line.startswith('Polymer Water'):
                     line = line.strip().split()
-                    line[2] = f"{frac_Lp:.5f}"
+                    line[2] = f"{frac_w:.6f}"
+                    
+                    # Converts list to list[str]
+                    line = list(map(str, line))
+                    wf.write('\t'.join(line) + '\n')
+
+                elif line.startswith('Polymer\tLipid') or line.startswith('Polymer Lipid'):
+                    line = line.strip().split()
+                    line[2] = f"{frac_l:.6f}"
 
                     # Converts list to list[str]
                     line = list(map(str, line))
                     wf.write('\t'.join(line) + '\n')
-                    line = next(rf)
-                    
-                if line.startswith('	Times	0 1000'):
+                
+                elif line.startswith('Polymer\tSingleLipid') or line.startswith('Polymer SingleLipid'):
                     line = line.strip().split()
-                    line[2] = f"{time}"
-                    
+                    line[2] = f"{frac_sl:.6f}"
+
                     # Converts list to list[str]
                     line = list(map(str, line))
-                    wf.write('\t'.join(line) + '\n')  
-                    line = next(rf) 
+                    wf.write('\t'.join(line) + '\n')
                     
-                if line.strip().split() and line.strip().split()[0] in params.keys():
-                    key = line.strip().split()[0]
-                    wf.write(f"{key:<12}\t{str(params[key])}\n")
+                # if line.startswith('	Times	0 1000'):
+                #     line = line.strip().split()
+                #     line[2] = f"{time}"
+                    
+                #     # Converts list to list[str]
+                #     line = list(map(str, line))
+                #     wf.write('\t'.join(line) + '\n')  
+                #     line = next(rf) 
+                    
+                # if line.strip().split() and line.strip().split()[0] in params.keys():
+                #     key = line.strip().split()[0]
+                #     wf.write(f"{key:<12}\t{str(params[key])}\n")
 
                 else:
                     wf.write(line)
@@ -85,42 +77,46 @@ def run_sim(params):
 
     os.mkdir(folder)
 
-    files = ['dmpci.ms', 'dpd-w10.exe', 'dpd-linux']
-    for file in files:
-        shutil.copy(file, folder+file)
+    files = ['dmpci.ms', 'dpd-w10.exe'] if platform.system().lower() == 'windows' \
+        else ['dmpci.ms', 'dpd-linux']
 
-    change_input(f'{folder}dmpci.ms', params['frac_p'], params['seed'])
+    for file in files:
+        shutil.copy(file, os.path.join(folder, file))
+
+    change_input(os.path.join(folder, 'dmpci.ms'))
 
     # Starts simulation
-    if platform.system().lower() == 'windows':
-        os.system(f'cd {folder} && dpd-w10.exe ms_sim')
+    if platform.system().lower() == 'windows':      
+        p = subprocess.run(['cd', f'{folder}', '&&', 'dpd-w10.exe', 'ms_sim'], shell=True, stdout=None)
+
+        if p.returncode == 0:
+            os.remove(os.path.join(folder, 'dpd-w10.exe'))
+
+        else:
+            print(f"Simulation failed with error: '{p.stderr}', error code: '{p.returncode}'")
+            # if os.path.exists(folder):
+            #     shutil.rmtree(folder)
+        
     else:
         os.system(f'cd {folder} && ./dpd-linux ms_sim')
+        os.remove(os.path.join(folder, 'dpd-linux'))    
 
 
 def main():
-
-    # density, defined in dmpci
-    density = 3
-    # Water beads volume !! Does not change !!
-    V_w = 4 * 0.5 **3
-    # Simulation box volume !! Can be changed in dmpci !!
-    V_sim = 20 **3
-    # Fraction of octolipid in the simulation volume
-    frac_Lp = np.array([0.0625, 0.125, 0.25, 0.375])
     
     np.random.seed(279)
     seeds = np.random.randint(-9999, -1000, size=5)
 
-    sims = [{'folder': f'{frac_Lp[i]:.5f}_{seeds[j]}/', 'frac_p': frac_Lp[i] /(density * V_sim), 'seed': seeds[j]} 
-            for i in range(frac_Lp.shape[0]) for j in range(seeds.shape[0])]
+    sims = [{'folder': 'test/',
+             }
+            ]
 
-    print(sims)
+    run_sim(sims[0])
 
-    with multiprocessing.Pool() as p:
-        p.map(run_sim, sims)    
+    # with multiprocessing.Pool(2) as pool:
+    #     pool.map(run_sim, sims)    
 
-    print('Done')
+    # print('Done')
 
 
 if __name__ == "__main__":

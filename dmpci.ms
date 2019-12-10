@@ -1,69 +1,90 @@
 dpd
 
-Title	" Water/surfactant bilayer "
-Date	29/11/2019
-Comment	" Potato "
+Title	" Water/surfactant bilayer - check on my params "
+Date    20/04/10
+Comment	" H3(T4)2 lipids. 
+        Unstretched bond length of 0.5, k3 = 20
+        A/N = 1.25,  1638  lipids check how A/N changes with tail length.
+        My parameter set - longer run. How does the preferred area per molecule vary with chain length?   "
 
-State   compositelamella
-        Polymers    Lipid   OctoLipid
-        Normal      0 0 1
-        Centre      0.5
-        Thickness   5.0
-        Linearise   0
-        UpperFraction   0.5 0.5
-        Patches     1   1
-        Polymerise  0
+State	lamella
+       	Polymer		Lipid
+        Normal		0 0 1
+        Centre		0.5
+        Thickness	5.0
+        Linearise	1
+       	UpperFraction   0.5
+       	Polymerise	0
 
-Bead	H	
-    	0.5
-    	25	
-    	4.5	
+Bead  H
+        0.5
+        25	
+        4.5	
 
-Bead	T
-    	0.5
-    	50	25
-    	4.5	4.5	
+Bead  T
+        0.5
+        50  25
+        4.5 4.5
 
-Bead	W
-		0.5
-		35	75	25
-		4.5	4.5	4.5
+Bead  W
+        0.5
+        35	75	25
+        4.5	4.5	4.5
 
-Bond	H H	128 0.5
-Bond	H T 128 0.5
-Bond	T T 128	0.5
+Bead HS
+        0.5
+        25	50	35	25
+        4.5	4.5	4.5	4.5
+
+
+Bond    H H  128	0.5
+Bond    H T  128	0.5
+Bond    T T  128	0.5
+Bond	HS T 128	0.5
+Bond	HS H 128	0.5
+Bond	HS HS 128	0.5
 
 BondPair	H T T	20.0	0.0
 BondPair	T T T	20.0	0.0
+BondPair	HS T T	20.0	0.0
+BondPair	HS H T	20.0	0.0
+BondPair	HS HS T	20.0	0.0
 
-Polymer Water 0.9801083 "  (W)  "
-Polymer Lipid 0.00994585 "  (H H (* (T T T T)) H T T T T)  "
-Polymer OctoLipid 0.00994585    "  (H H (* (T T T T T T T T T T T T T )) H T T T T T T T T T T T T T )  "
-Box			20 20 20			1 1 1
+Polymer	Water           0.980006        " (W) "
+Polymer	Lipid           0.019994        " (H H (* (T T T T)) H T T T T) "
+Polymer	SingleLipid     0.00000         " (HS H (* (T T T T)) H T T T T) "
+
+Box             32 32 32       1  1  1
 Density		3
-Temp		1
-RNGSeed		-60112
+Temp            1
+RNGSeed		-521573
 Lambda		0.5
-Step		0.02
-Time		1000
-SamplePeriod		100
-AnalysisPeriod		100
-DensityPeriod		1000
-DisplayPeriod		100
-RestartPeriod		1000
+Step		0.005
+Time		400000
+SamplePeriod    100
+AnalysisPeriod  1000
+DensityPeriod   400000
+DisplayPeriod   2000
+RestartPeriod   400000
 Grid		10 10 256
 
 Analysis
 	Type	bilayer
-	Times	0 1000
-	Polymer Lipid
+	Times	0 400000
+	Polymer	Lipid
 	Normal	0 0 1
 	Slice	256
 	Grid	16 16
 	Solvent	Water
 
-Command	ToggleBeadDisplay				1    W
-Command SetCurrentStateCamera			1    0.5 -0.5 -0.5  0.5 0.5 0.5
-Command SetCurrentStateDefaultFormat	1    Paraview
+Command	ToggleBeadDisplay               1       W
+Command SetCurrentStateCamera           1       0.5 -0.5 -0.5   0.5 0.5 0.5
+Command SetCurrentStateDefaultFormat    1       Paraview
 
-Command	SetTimeStepSize	100	0.01
+Command SelectPolymerTypeInSimBox	1       singleLipid	SingleLipid
+Command MSDOfPolymerTarget	        1	singleLipid	lipidDisplacement	1	200000
+
+Command SetTimeStepSize     	        100    0.02
+Command ConstantForceOnTarget	        100   singleLipid     f_s     0 0 1   100.0
+
+Command ExternalWorkOnTarget            100   singleLipid     f_s     workOnSingleLipid       100       200000    

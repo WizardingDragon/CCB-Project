@@ -1,6 +1,8 @@
 # Folders:
-.ipynb_checkpoints/*
+.ipynb_checkpoints
+Results
 Results/*
+.vscode
 
 # File Types:
 *.vtk
