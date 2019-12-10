@@ -1,0 +1,11 @@
+What is the equilibrium condition?
+Save the state when the different bilayer are equilibriated
+    For each simulation model, have mostly lipid and have only one special lipid (samelength and properties as the others, but with a special name)
+    For each of the simulation at equilibrium, write somewhere the number of lipid and the position of the bilayer
+    
+grep -A 1 "Bilayer Surface Tension" dmpcas.lp6_eq > lipid6.tmp
+
+lp4 delta Z = 7.6 - 8.2
+lp6 delta Z = 8.5 - 9.3
+lp8 delta Z = 10.3 - 11.2
+lp10 delta Z = 13 -13.5

@@ -48,17 +48,17 @@ Temp        1
 RNGSeed		-770688
 Lambda		0.5
 Step		0.005
-Time		200000
+Time		20000
 SamplePeriod     100
-AnalysisPeriod	 100000
-DensityPeriod    200000
+AnalysisPeriod	 1000
+DensityPeriod    20000
 DisplayPeriod    1000
-RestartPeriod    200000
+RestartPeriod    20000
 Grid		10 10 256
 
 Analysis
 	Type	bilayer
-	Times	0 200000
+	Times	0 20000
 	Polymer	Lipid
 	Normal	0 0 1
 	Slice	256
@@ -67,6 +67,7 @@ Analysis
 
 Command	ToggleBeadDisplay       1    W
 Command SetCurrentStateCamera   1    0.5 -0.5 -0.5  0.5 0.5 0.5
+Command SetCurrentStateDefaultFormat	1    Paraview
 
 Command SetTimeStepSize     1000     0.01
 
