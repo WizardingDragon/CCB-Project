@@ -7,14 +7,15 @@ Comment	" H3(T4)2 lipids.
         A/N = 1.25,  1638  lipids check how A/N changes with tail length.
         My parameter set - longer run. How does the preferred area per molecule vary with chain length?   "
 
-State	lamella
-       	Polymer		Lipid
-        Normal		0 0 1
-        Centre		0.5
-        Thickness	5.0
-        Linearise	1
-       	UpperFraction   0.5
-       	Polymerise	0
+State   compositelamella
+        Polymers        Lipid   SingleLipid
+        Normal          0 0 1
+        Centre          0.5
+        Thickness       5.0
+        Linearise       0
+        UpperFraction   0.5 0.5
+        Patches         1   1
+        Polymerise      0
 
 Bead  H
         0.5
@@ -60,17 +61,17 @@ Temp            1
 RNGSeed		-521573
 Lambda		0.5
 Step		0.005
-Time		400000
+Time		20000
 SamplePeriod    100
 AnalysisPeriod  1000
-DensityPeriod   400000
+DensityPeriod   20000
 DisplayPeriod   2000
-RestartPeriod   400000
+RestartPeriod   20000
 Grid		10 10 256
 
 Analysis
 	Type	bilayer
-	Times	0 400000
+	Times	0 20000
 	Polymer	Lipid
 	Normal	0 0 1
 	Slice	256
@@ -82,9 +83,11 @@ Command SetCurrentStateCamera           1       0.5 -0.5 -0.5   0.5 0.5 0.5
 Command SetCurrentStateDefaultFormat    1       Paraview
 
 Command SelectPolymerTypeInSimBox	1       singleLipid	SingleLipid
-Command MSDOfPolymerTarget	        1	singleLipid	lipidDisplacement	1	200000
+Command SelectBeadTypeInSimBox          1       singleLipidHead  HS
 
-Command SetTimeStepSize     	        100    0.02
-Command ConstantForceOnTarget	        100   singleLipid     f_s     0 0 1   100.0
+Command MSDOfPolymerTarget	        1	singleLipid	lipidDisplacement	1	20000
 
-Command ExternalWorkOnTarget            100   singleLipid     f_s     workOnSingleLipid       100       200000    
+Command SetTimeStepSize     	        1000    0.02
+
+Command ConstantForceOnTarget	        1000     singleLipidHead f_s     0 0 1          10.0
+Command ExternalWorkOnTarget            1000     singleLipidHead f_s     WorkHead       1000    20000        
