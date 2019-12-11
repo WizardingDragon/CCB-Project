@@ -21,7 +21,7 @@ The simulations take the following steps:
 
 The following considerations must be (and are) taken into account:
 
-* The membrane surface tension must be null. Consequently, the concentration of lipid in the box must be chosen to obtain a null tension
+* The membrane surface tension must be null. Consequently, the concentration of lipid in the box must be chosen to obtain a null tension. Be aware that a negative stress correspond to membrane compression.
 * The membrane should not drift. Using small forces on the inferior lipid layer, this effect could be mitigated.
 
 The following parameters are changed between simulations:
