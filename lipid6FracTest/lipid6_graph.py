@@ -15,27 +15,20 @@ for folder in folderList:
 # rangge(2,60,3)
 
 labelValue = {}
-for label in labels:
-    for file in files:
-        with open(file, 'rt') as rf:
-            localLines = []
-            for line in rf:
-                line = (line.strip().split())[0]
-                localLines.append(line)
-            goodLines = []
-            for i in range(1,60,3):
-                goodLines.append(float(localLines[i]))
-            labelValue[label] = goodLines
+for i in range(len(labels)):
+    with open(files[i], 'rt') as rf:
+        localLines = []
+        for line in rf:
+            line = (line.strip().split())[0]
+            localLines.append(line)
+        goodLines = []
+        for ind in range(1,60,3):
+            goodLines.append(float(localLines[ind]))
+        labelValue[labels[i]] = goodLines
             
 x_axis = list(range(1000, 21000, 1000))
 
-
-# print((labelValue['0.6'][:]))
-# plt.show()
-plt.show()
-fig = plt.figure()
 for label in labels:
-    plt.plot(x_axis, labelValue[label], 'figure', fig)
-    print(label)
+    plt.plot(x_axis[5:-1], labelValue[label][5:-1])
+plt.legend(labels)
 plt.show()
-# print(list(labelValue.values()))
