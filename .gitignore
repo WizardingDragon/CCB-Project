@@ -1,6 +1,7 @@
 # Folders:
 .ipynb_checkpoints/*
 Results/*
+IrisProject/*
 
 # File Types:
 *.vtk
