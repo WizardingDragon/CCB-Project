@@ -1,12 +1,7 @@
 import multiprocessing
 import os
 import platform
-
-# List of dmpci files to run in parallel
-# dmpcis = ["folder/dmpci.1",
-#           "folder/folder2/dmpci.2"]
-dmpcis = []
-
+import sys
 
 class Simulation(multiprocessing.Process):
     def __init__(self, dmpci):
@@ -37,4 +32,5 @@ def compute(dmpcis):
 
 
 if __name__ == "__main__":
+    dmpcis = sys.argv[1:]
     compute(dmpcis)
