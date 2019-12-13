@@ -74,7 +74,7 @@ def change_input(filename, frac_Lp, frac_Lp2 = 0, seed=None, time=30000, force=N
 
                 else:
                     wf.write(line)
-  
+    
 
 def run_sim(params):
 
@@ -101,9 +101,9 @@ def run_sim(params):
     
     lone_poly_frac = 1.5 * params['frac_p1'] / polymer_numbers[1]
 
-    change_input(f'{folder}dmpci.ms', params['frac_p1']-lone_poly_frac, frac_Lp2=lone_poly_frac, seed=params['seed'], time=20000)
+    change_input(f'{folder}dmpci.ms', params['frac_p1']-lone_poly_frac, frac_Lp2=lone_poly_frac, seed=params['seed'], time=100000)
 
-    set_step_force(folder+'dmpci.ms_sim', polymer_numbers[1]-1, force_step=5, steps=20, time=20000)
+    # set_step_force(folder+'dmpci.ms_sim', polymer_numbers[1]-1, force_step=5, steps=20, time=20000)
 
     # Starts simulation
     if platform.system().lower() == 'windows':
@@ -132,8 +132,8 @@ def set_step_force(file, polymer_number, force_step=2, steps=25, start_time=1000
     with open(file, 'a') as file:
         file.write('\nCommand SelectBeadTypeInSimBox \t1 \t pulled  HS\n')
 
-        slice_plane = 12 / (2*32)
-        half_width = 6 / (2*32)
+        slice_plane = 8 / (2*32)
+        half_width = 8 / (2*32)
         file.write(f'Command SelectBeadTypeInSlice \t{start_time-1} \t half_membrane H   0 0 1 \t0.5 0.5 {slice_plane} \t0.5 0.5 {half_width}\n')
         
 
@@ -158,20 +158,20 @@ def main():
     frac_Lp = np.array([0.0625, 0.125, 0.25, 0.375])
     
     np.random.seed(279)
-    seeds = np.random.randint(-9999, -1000, size=2)
+    seeds = np.random.randint(-9999, -1000, size=6)
 
-    # sims = [{'folder': f'Results/force_30_{seeds[j]}/', 'frac_p1': 0.019994, 'frac_p2': 0, 'seed': seeds[j]}
-    #              for j in range(seeds.shape[0])]
+    sims = [{'folder': f'Results/equilibrated_{seeds[j]}/', 'frac_p1': 0.019994, 'frac_p2': 0, 'seed': seeds[j]}
+                 for j in range(seeds.shape[0])]
 
-    sim = {'folder': f'Results/{0.019994:.5f}_{seeds[0]}/', 'frac_p1': 0.019994, 'frac_p2': 0, 'seed': seeds[0]}
-    print(sim)
+    # sim = {'folder': f'Results/{0.019994:.5f}_{seeds[0]}/', 'frac_p1': 0.019994, 'frac_p2': 0, 'seed': seeds[0]}
+    # print(sim)
 
-    # with multiprocessing.Pool(6) as p:
-    #     p.map(run_sim, sims)   
+    with multiprocessing.Pool() as p:
+        p.map(run_sim, sims)   
 
-    run_sim(sim)
+    # run_sim(sim)
     runtime = time.time() - start_time
-    print(f'Done. Time elapsed: {runtime}')
+    print(f'Done. Time elapsed: {runtime//60}')
 
 
 if __name__ == "__main__":

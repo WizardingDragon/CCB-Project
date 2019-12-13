@@ -1,6 +1,6 @@
 # Folders:
 .ipynb_checkpoints/*
-Results/*
+# Results/*
 
 # File Types:
 *.vtk
