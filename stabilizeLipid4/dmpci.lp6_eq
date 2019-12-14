@@ -52,8 +52,8 @@ BondPair	HS H T	20.0	0.0
 BondPair	HS HS T	20.0	0.0
 
 Polymer Water  0.980006   " (W) "
-Polymer Lipid  0.019994   " (H H (* (T T T T T T)) H T T T T T T) "
-Polymer	SingleLipid     0.00000         " (HS HS (* (T T T T T T)) HS T T T T T T) "
+Polymer Lipid  0.019994   " (H H (* (T T T T)) H T T T T) "
+Polymer	SingleLipid     0.00000         " (HS HS (* (T T T T)) HS T T T T) "
 
 Box       32 32 32       1  1  1
 Density		3
