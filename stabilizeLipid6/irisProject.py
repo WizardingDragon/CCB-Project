@@ -89,13 +89,13 @@ def run_sim(params):
 
 def main():
     # Fraction of lipid in the simulation volume andround them to 3 decimals with numpy.around()
-    frac = np.around(np.linspace(0.5,2,14), decimals=3)
+    frac = np.around(np.linspace(1,1.5,21), decimals=3)
     
-    # Change FOLDER NAME BEFORE ADDING OTHER SEEDS!!!!!!!!!!!!
+    # Change FOLDER NAME BEFORE ADDING OTHE SEEDS!!!!!!!!!!!!
     np.random.seed(279)
     seeds = np.random.randint(-9999, -1000, size=1)
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    sims = [{'folder': f'lp6-sl_{frac[i]:.7f}/', 'frac': frac[i], 'seed': seeds[j]} 
+    sims = [{'folder': f'lp6-sl2_{frac[i]:.7f}/', 'frac': frac[i], 'seed': seeds[j]} 
             for i in range(len(frac)) for j in range(len(seeds))]
     
     print(sims)
