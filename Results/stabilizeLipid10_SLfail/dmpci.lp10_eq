@@ -7,14 +7,14 @@ Comment	" H3(T4)2 lipids.
         A/N = 1.25,  1638  lipids check how A/N changes with tail length.
         My parameter set - longer run. How does the preferred area per molecule vary with chain length?   "
 
-State	lamella
-       	Polymers		Lipid
+State	compositelamella
+       	Polymers		Lipid   SingleLipid
         Normal		0 0 1
         Centre		0.5
         Thickness	5.0
-        Linearise	1
-       	UpperFraction	0.5 
-        Patches         1
+        Linearise	0
+       	UpperFraction	0.5     1
+        Patches         1       1
        	Polymerise	0
 
 Bead  H

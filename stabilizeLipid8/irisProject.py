@@ -14,12 +14,10 @@ def change_input(filename, frac, seed=None, time=20000):
     # Fraction of all lipids in the simulation volume
     frac_LT = 0.019994
 
-    # Fraction of single lipid in the simulation (1 single lipid)
-    frac_sl = round(1.5/(32**3 *3), 7)
     # Fraction of lipids in the simulation
-    frac_lp = round(frac * frac_LT - frac_sl, 7)
-    # Fraction of water
-    frac_w = round(1 - frac_sl - frac_lp, 7)
+    frac_sl = 0#round(1.5/(32**3 *3), 7)
+    frac_Lp = round(frac * frac_LT - frac_sl, 7)
+    frac_w = round(1 - frac_sl - frac_Lp, 7)
 
     params = {'Box': "32 32 32\t1 1 1", 'RNGSeed': seed if seed is not None else -521573, 'Step': 0.005, 'Time': time, 
               'SamplePeriod': time //2000, 'AnalysisPeriod': time //20, 'DensityPeriod': time, 'DisplayPeriod': time //20, 'RestartPeriod': time // 2,
@@ -30,7 +28,7 @@ def change_input(filename, frac, seed=None, time=20000):
             for line in rf:
                 if line.startswith('Polymer Water'):
                     line = line.strip().split()
-                    line[2] = f"{frac_w:.4f}"
+                    line[2] = f"{frac_w:.7f}"
                     
                     # Converts list to list[str]
                     line = list(map(str, line))
@@ -39,7 +37,7 @@ def change_input(filename, frac, seed=None, time=20000):
 
                 if line.startswith('Polymer Lipid'):
                     line = line.strip().split()
-                    line[2] = f"{frac_lp:.4f}"
+                    line[2] = f"{frac_Lp:.7f}"
 
                     # Converts list to list[str]
                     line = list(map(str, line))
@@ -48,7 +46,7 @@ def change_input(filename, frac, seed=None, time=20000):
 
                 if line.startswith('Polymer	SingleLipid'):
                     line = line.strip().split()
-                    line[2] = f"{frac_sl:.4f}"
+                    line[2] = f"{frac_sl:.7f}"
 
                     # Converts list to list[str]
                     line = list(map(str, line))
@@ -90,14 +88,14 @@ def run_sim(params):
 
 
 def main():
-    # Fraction of lipid in the simulation volume (and cuts it to 3 decimals with numpy.around)
-    frac = np.around(np.linspace(1.0,1.5,28), decimals=4)
+    # Fraction of lipid in the simulation volume andround them to 3 decimals with numpy.around()
+    frac = np.around(np.linspace(1,1.25,28), decimals=3)
     
     # Change FOLDER NAME BEFORE ADDING OTHER SEEDS!!!!!!!!!!!!
     np.random.seed(279)
     seeds = np.random.randint(-9999, -1000, size=1)
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    sims = [{'folder': f'lipid8_{frac[i]:.4f}/', 'frac': frac[i], 'seed': seeds[j]} 
+    sims = [{'folder': f'lp8-sl_{frac[i]:.7f}/', 'frac': frac[i], 'seed': seeds[j]} 
             for i in range(len(frac)) for j in range(len(seeds))]
     
     print(sims)
