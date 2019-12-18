@@ -89,7 +89,7 @@ def run_sim(params):
 
 def main():
     # Fraction of lipid in the simulation volume andround them to 3 decimals with numpy.around()
-    frac = np.around(np.linspace(1,1.25,28), decimals=3)
+    frac = np.around(np.linspace(1,1.25,21), decimals=3)
     
     # Change FOLDER NAME BEFORE ADDING OTHER SEEDS!!!!!!!!!!!!
     np.random.seed(279)
