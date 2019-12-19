@@ -17,3 +17,6 @@ Notes
 results_parse.py
 dpd-linux
 dpd-w10.exe
+
+# Python
+__pycache__/
