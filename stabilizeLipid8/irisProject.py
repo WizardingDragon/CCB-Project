@@ -77,25 +77,25 @@ def run_sim(params):
 
     os.mkdir(folder)
 
-    files = ['dmpci.lp10_eq', 'dpd-linux']
+    files = ['dmpci.lp8_eq', 'dpd-linux']
     for file in files:
         shutil.copy(file, folder+file)
 
-    change_input(f'{folder}dmpci.lp10_eq', params['frac'], params['seed'])
+    change_input(f'{folder}dmpci.lp8_eq', params['frac'], params['seed'])
 
     # Starts simulation and deletes the dpd linux file to reduce size when scp-ing folders between computers
-    os.system(f'cd {folder} && ./dpd-linux lp10_eq_sim && rm dpd-linux')
+    os.system(f'cd {folder} && ./dpd-linux lp8_eq_sim && rm dpd-linux')
 
 
 def main():
     # Fraction of lipid in the simulation volume andround them to 3 decimals with numpy.around()
-    frac = np.around(np.linspace(1.02,1.07,21), decimals=3)
+    frac = np.around(np.linspace(1.1,1.2,210), decimals=3)
     
     # Change FOLDER NAME BEFORE ADDING OTHER SEEDS!!!!!!!!!!!!
     np.random.seed(279)
     seeds = np.random.randint(-9999, -1000, size=1)
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    sims = [{'folder': f'lp10_{frac[i]:.3f}/', 'frac': frac[i], 'seed': seeds[j]} 
+    sims = [{'folder': f'lp8_{frac[i]:.3f}/', 'frac': frac[i], 'seed': seeds[j]} 
             for i in range(len(frac)) for j in range(len(seeds))]
     
     print(sims)
