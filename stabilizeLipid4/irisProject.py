@@ -15,7 +15,7 @@ def change_input(filename, frac, seed=None, time=50000):
     frac_LT = 0.019994
 
     # Fraction of lipids in the simulation
-    frac_sl = 0#round(1.5/(32**3 *3), 7)
+    frac_sl = round(1.5/(32**3 *3), 7)
     frac_Lp = round(frac * frac_LT - frac_sl, 7)
     frac_w = round(1 - frac_sl - frac_Lp, 7)
 
