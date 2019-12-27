@@ -95,7 +95,7 @@ def main():
     np.random.seed(279)
     seeds = np.random.randint(-9999, -1000, size=7)
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    sims = [{'folder': f'lp4_{seeds[j]}_{frac[i]:.7f}/', 'frac': frac[i], 'seed': seeds[j]} 
+    sims = [{'folder': f'lp4_{seeds[j]}_{frac[i]:.3f}/', 'frac': frac[i], 'seed': seeds[j]} 
             for i in range(len(frac)) for j in range(len(seeds))]
     
     print(sims)
