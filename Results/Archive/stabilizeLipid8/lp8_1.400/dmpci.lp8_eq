@@ -1,21 +1,20 @@
 dpd
 
-Title	" Water/surfactant bilayer - check on my params "
+Title	" Water/surfactant bilayer "
 Date    20/04/10
 Comment	" H3(T4)2 lipids. 
         Unstretched bond length of 0.5, k3 = 20
         A/N = 1.25,  1638  lipids check how A/N changes with tail length.
         My parameter set - longer run. How does the preferred area per molecule vary with chain length?   "
 
-State	compositelamella
-       	Polymers		Lipid SingleLipid
-        Normal			0 0 1
-        Centre			0.5
-        Thickness		5.0
-        Linearise		0
-       	UpperFraction	        0.5 1
-        Patches                 1 1
-       	Polymerise		0
+State	lamella
+       	Polymer		Lipid
+        Normal		0 0 1
+        Centre		0.5
+        Thickness	5.0
+        Linearise	1
+       	UpperFraction	0.5 
+       	Polymerise	0
 
 Bead  H
       0.5
@@ -52,8 +51,8 @@ BondPair	HS H T	20.0	0.0
 BondPair	HS HS T	20.0	0.0
 
 Polymer Water  0.980006   " (W) "
-Polymer Lipid  0.019994   " (H H (* (T T T T T T)) H T T T T T T) "
-Polymer	SingleLipid     0.00000         " (HS H (* (T T T T T T)) H T T T T T T) "
+Polymer Lipid  0.019994   " (H H (* (T T T T T T T T)) H T T T T T T T T) "
+Polymer	SingleLipid     0.00000         " (HS HS (* (T T T T T T T T)) HS T T T T T T T T) "
 
 Box       32 32 32       1  1  1
 Density		3
@@ -61,7 +60,7 @@ Temp        1
 RNGSeed		-521573
 Lambda		0.5
 Step		0.005
-Time		50000
+Time		200000
 SamplePeriod    100
 AnalysisPeriod	1000
 DensityPeriod   200000
@@ -71,7 +70,7 @@ Grid		10 10 256
 
 Analysis
 	Type	bilayer
-	Times	0 50000
+	Times	0 200000
 	Polymer	Lipid
 	Normal	0 0 1
 	Slice	256
