@@ -8,7 +8,7 @@ import glob
 import shutil
 import numpy as np
 
-def change_input(filename, frac, seed=None, time=20000):
+def change_input(filename, frac, seed=None, time=50000):
     """Creates a new dmpci.ms_sim with updated number fraction values (cf dpd doc)"""
 
     # Fraction of all lipids in the simulation volume
@@ -88,14 +88,14 @@ def run_sim(params):
 
 
 def main():
-    # Fraction of lipid in the simulation volume andround them to 3 decimals with numpy.around()
-    frac = np.around(np.linspace(1,1.5,21), decimals=3)
+    # Fraction of lipid in the simulation volume
+    frac = np.linspace(1.1382353,1.1382353,1)
     
-    # Change FOLDER NAME BEFORE ADDING OTHE SEEDS!!!!!!!!!!!!
+    # Change FOLDER NAME BEFORE ADDING OTHER SEEDS!!!!!!!!!!!!
     np.random.seed(279)
-    seeds = np.random.randint(-9999, -1000, size=1)
+    seeds = np.random.randint(-9999, -1000, size=7)
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    sims = [{'folder': f'lp6-sl2_{frac[i]:.7f}/', 'frac': frac[i], 'seed': seeds[j]} 
+    sims = [{'folder': f'lipid6_{seeds[j]}_{frac[i]:.7f}/', 'frac': frac[i], 'seed': seeds[j]} 
             for i in range(len(frac)) for j in range(len(seeds))]
     
     print(sims)
