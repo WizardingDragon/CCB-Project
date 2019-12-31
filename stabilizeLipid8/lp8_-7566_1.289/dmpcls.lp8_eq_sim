@@ -3,9 +3,9 @@ Message 1 at time 0
  severity info
 Velocity distn
 Temperature = 1
-Mean Vel    = 1.51759e-18 -6.18944e-17 0 
-Mean Sq Vel = 0.998173 1.00183 0 
-Var Vel     = 0.998173 1.00183 0
+Mean Vel    = 4.42357e-17 -5.44421e-17 0 
+Mean Sq Vel = 0.997909 1.00209 0 
+Var Vel     = 0.997909 1.00209 0
 
 Message 2 at time 1
  severity info
