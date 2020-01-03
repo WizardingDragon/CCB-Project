@@ -6,7 +6,7 @@ timeList = range(3000, 33000, 3000)
 for folder in folderList:
     fileList = []
     for time in timeList:
-        basePath = '/home/archangel/Documents/EPFL/Computational Cell Biology/Project/Results/OriginalLipidRaftsSim/{}dmpccs.ms_sim.con.{}.vtk'.format(folder, time)
+        basePath = '/home/archangel/Documents/EPFL/Computational Cell Biology/Project/stabilizeLipid4/*/{}dmpccs.ms_sim.con.{}.vtk'.format(folder, time)
         fileList.append(basePath)
     VtkArray.append(fileList)
 
